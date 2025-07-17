@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the categories.
+     * 
+     * @author  Marcos Conde
+     * @since   16/07/2025
      */
     public function index()
     {
-        return 'teste';
+        $categories = Category::all();
+        return $categories;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new categories.
      */
     public function create()
     {
