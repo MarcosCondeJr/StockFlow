@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -20,19 +21,23 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new categories.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Saves a category record
+     * 
+     * @param   Request $request    data to be saved
+     * 
+     * @author          Marcos Conde
+     * @since           18/07/2025
      */
     public function store(Request $request)
     {
-        //
+        $category = Category::create($request->all());
+
+        if ($category)
+        {
+            return $category;
+        }
+
+        return false;
     }
 
     /**

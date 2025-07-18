@@ -15,4 +15,13 @@ class Category extends Model
      * @var string
     */
     protected $table = 'categories';
+
+    /**
+     * The attributes of category
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'code', 'name', 'description'
+    ];
 }
