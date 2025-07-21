@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -21,7 +22,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Saves a category record
+     * Saves a category record.
      * 
      * @param   Request $request    data to be saved
      * 
@@ -32,43 +33,57 @@ class CategoryController extends Controller
     {
         $category = Category::create($request->all());
 
-        if ($category)
-        {
-            return $category;
-        }
-
-        return false;
+        return response()->json($category, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Returns a specific category.
+     * 
+     * @param   string  $id     key of category
+     * 
+     * @author          Marcos Conde
+     * @since           21/07/2025
      */
     public function show(string $id)
     {
-        //
+        $category = Category::find($id);
+
+        return response()->json($category, 200);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Update a specific category in storage.
+     * 
+     * @param   Request $request        values for update
+     * @param   string  $id             key of the category specifc
+     * 
+     * @author          Marcos Conde
+     * @since           21/07/2025
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $category->update($request->all());
+
+        return response()->json(["message" => "Categoria editada com sucesso!", "Object" => $category], 200);
     }
 
     /**
      * Remove the specified resource from storage.
+     *  
+     * @param   string  $id     key of the category for to be deleted
+     * 
+     * @author          Marcos Conde
+     * @since           21/07/2025
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::destroy($id);
+
+        return response()->json([
+            'message' => "Categoria deletada com sucesso",
+            'Object' => $category
+        ], 200);
     }
 }
