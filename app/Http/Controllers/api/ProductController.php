@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\ProductStoreRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -13,15 +14,29 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        $products = Product::all();
+        return $products;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Saves a product record.
+     * 
+     * @param   ProductStoreRequest $request
+     * 
+     * @author  Marcos Conde
+     * @since   23/07/2025
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        //
+        $inputs = $request->validated();
+
+        $product = Product::create($inputs);
+
+        return response()->json(
+            [
+                'message' => 'Produto cadastrado com sucesso',
+                'object'  => $product
+            ], 201);
     }
 
     /**
