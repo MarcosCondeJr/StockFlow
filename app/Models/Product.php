@@ -25,6 +25,9 @@ class Product extends Model
         'quantity_stock'
     ];
 
+    /**
+     * Return the linked category
+     */
     public function category()
     {
         return $this->belongsTo(Category::class);
