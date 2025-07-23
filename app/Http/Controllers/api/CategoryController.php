@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
@@ -24,14 +26,16 @@ class CategoryController extends Controller
     /**
      * Saves a category record.
      * 
-     * @param   Request $request    data to be saved
+     * @param   CategoryStoreRequest $request    data to be saved
      * 
-     * @author          Marcos Conde
-     * @since           18/07/2025
+     * @author  Marcos Conde
+     * @since    18/07/2025
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-        $category = Category::create($request->all());
+        $inputs = $request->validated();
+        
+        $category = Category::create($inputs);
 
         return response()->json($category, 201);
     }
@@ -41,8 +45,8 @@ class CategoryController extends Controller
      * 
      * @param   string  $id     key of category
      * 
-     * @author          Marcos Conde
-     * @since           21/07/2025
+     * @author  Marcos Conde
+     * @since   21/07/2025
      */
     public function show(string $id)
     {
@@ -54,17 +58,19 @@ class CategoryController extends Controller
     /**
      * Update a specific category in storage.
      * 
-     * @param   Request $request        values for update
-     * @param   string  $id             key of the category specifc
+     * @param   CategoryUpdateRequest $request        values for update
+     * @param   string                $id             key of the category specifc
      * 
-     * @author          Marcos Conde
-     * @since           21/07/2025
+     * @author  Marcos Conde
+     * @since   21/07/2025
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryUpdateRequest $request, string $id)
     {
         $category = Category::findOrFail($id);
 
-        $category->update($request->all());
+        $inputs = $request->validated();
+
+        $category->update($inputs);
 
         return response()->json(["message" => "Categoria editada com sucesso!", "Object" => $category], 200);
     }
@@ -74,8 +80,8 @@ class CategoryController extends Controller
      *  
      * @param   string  $id     key of the category for to be deleted
      * 
-     * @author          Marcos Conde
-     * @since           21/07/2025
+     * @author  Marcos Conde
+     * @since   21/07/2025
      */
     public function destroy(string $id)
     {
