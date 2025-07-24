@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductUpdateRequest extends FormRequest
@@ -11,7 +12,7 @@ class ProductUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -33,5 +34,17 @@ class ProductUpdateRequest extends FormRequest
             'sale_price'     => 'required|numeric',
             'quantity_stock' => 'required|integer'
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $productId = $this->route('product');
+
+        $product = Product::find($productId);
+
+        if (!$product)
+        {
+            abort(response()->json(['message' => 'Produto não encoontrado.'], 404));
+        }
     }
 }
